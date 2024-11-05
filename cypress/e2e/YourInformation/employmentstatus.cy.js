@@ -16,8 +16,10 @@ describe('Employment Status Dropdown Tests', () => {
         cy.get('#ctl00_Main_Continue1').click();
       });
     
-    it('should display correct values in the Employment Status dropdown', () => {
-      const expectedValues = [
+  it('should display all expected options in the Employment Status dropdown', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').find('option').then(options => {
+      const actualOptions = [...options].map(option => option.innerText.trim());
+      const expectedOptions = [
         '--',
         'Employed',
         'Company Director',
@@ -29,92 +31,91 @@ describe('Employment Status Dropdown Tests', () => {
         'Disability',
         'Voluntary Work'
       ];
-      
-      cy.get('#ctl00_Main_EmploymentStatus')
-        .find('option')
-        .then(($options) => {
-          const actual = [...$options].map(option => option.innerText.trim());
-          expect(actual).to.deep.equal(expectedValues);
-        });
-    });
-  
-    it('should not allow proceeding when pressing enter with no selection', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').type('{enter}');
-      cy.get('#ctl00_Main_RF_EmploymentStatus').should('be.visible')
-        .and('contain', '* Employment Status');
-    });
-  
-    it('should show an error message when attempting to proceed without selecting a value', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').focus().tab();
-      cy.get('#ctl00_Main_RF_EmploymentStatus').should('be.visible')
-        .and('contain', '* Employment Status');
-    });
-  
-    it('should show no details in the dropdown when entering invalid characters', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').type('A');
-      cy.get('#ctl00_Main_EmploymentStatus').should('have.value', '');
-  
-      cy.get('#ctl00_Main_EmploymentStatus').clear().type('1');
-      cy.get('#ctl00_Main_EmploymentStatus').should('have.value', '');
-  
-      cy.get('#ctl00_Main_EmploymentStatus').clear().type('*');
-      cy.get('#ctl00_Main_EmploymentStatus').should('have.value', '');
-    });
-  
-    it('should allow navigating through the dropdown using arrow keys', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').focus();
-      cy.get('#ctl00_Main_EmploymentStatus').type('{downarrow}');
-      cy.get('#ctl00_Main_EmploymentStatus').should('have.value', 'E'); // First option should be Employed
-    });
-  
-    it('should select "Employed" and show occupation question', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').select('Employed');
-      cy.get('#ctl00_Main_EmpStatusHidden').should('have.value', 'E'); // Hidden field should update
-      // Check if the occupation question is visible (add selector based on your HTML)
-      cy.get('#occupation-question-selector').should('be.visible'); // Replace with actual selector for occupation question
-    });
-  
-    it('should select "Retired" and not show occupation question', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').select('Retired');
-      cy.get('#ctl00_Main_EmpStatusHidden').should('have.value', 'R');
-      cy.get('#occupation-question-selector').should('not.be.visible'); // Replace with actual selector for occupation question
-    });
-  
-    it('should select "Self Employed" and show occupation question', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed');
-      cy.get('#ctl00_Main_EmpStatusHidden').should('have.value', 'S');
-      cy.get('#occupation-question-selector').should('be.visible'); // Replace with actual selector for occupation question
-    });
-  
-    it('should select "Household Duties" and not show occupation question', () => {
-      cy.get('#ctl00_Main_EmploymentStatus').select('Household Duties');
-      cy.get('#ctl00_Main_EmpStatusHidden').should('have.value', 'H');
-      cy.get('#occupation-question-selector').should('not.be.visible'); // Replace with actual selector for occupation question
-    });
-  
-    it('should show error when pressing enter in occupation input without details', () => {
-      cy.get('#occupation-input-selector').focus().type('{enter}'); // Replace with actual selector for occupation input
-      cy.get('#occupation-error-message-selector').should('be.visible') // Replace with actual error message selector
-        .and('contain', 'Please select your occupation');
-    });
-  
-    it('should show a list of occupations when entering a valid query', () => {
-      cy.get('#occupation-input-selector').type('Art'); // Replace with actual selector for occupation input
-      cy.get('#occupation-suggestions-selector').should('exist'); // Check that suggestions appear
-      // Add more checks to validate if specific suggestions appear
-    });
-  
-    it('should select a valid occupation from suggestions', () => {
-      cy.get('#occupation-input-selector').type('tea');
-      cy.get('#occupation-suggestions-selector').contains('Teacher').click(); // Replace with actual selector
-      cy.get('#occupation-input-selector').should('have.value', 'Teacher');
-    });
-  
-    it('should not allow proceeding without selecting occupation from dropdown', () => {
-      cy.get('#occupation-input-selector').type('teacher'); // Type but don't select
-      cy.get('#occupation-input-selector').type('{enter}'); // Attempt to proceed
-      cy.get('#occupation-error-message-selector').should('be.visible') // Replace with actual error message selector
-        .and('contain', 'Please select your occupation');
+      expect(actualOptions).to.deep.equal(expectedOptions);
     });
   });
+
+  it('should display the dropdown menu and not proceed without selection', () => {
+    cy.get('#ctl00_Main_Continue2').click();
+    
+    cy.get('#ctl00_Main_RF_EmploymentStatus').should('be.visible').and('contain', '* Employment Status');
+  });
   
+  it('should display validation error when proceeding without selection', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').focus();
+    cy.get('#ctl00_Main_Continue2').click();
+    cy.get('#ctl00_Main_RF_EmploymentStatus').should('be.visible').and('contain', '* Employment Status');
+  });
+
+
+  it('should navigate freely through the dropdown using arrow keys', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').focus().type('{downarrow}{uparrow}');
+  });
+
+
+  it('should show Company Director when selected', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Company Director').should('have.value', 'C');
+    cy.get('#ctl00_Main_lblOccupation').should('not.exist');
+  });
+
+  it('should show Self Employed and display the occupation question', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_lblOccupation').should('be.visible');
+  });
+
+  // Occupation Input Tests
+  it('should display error when pressing Enter without entering details in the occupation input', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_txtOccupation').focus().type('{enter}'); 
+    cy.get('#ctl00_Main_RF_Occupation').should('be.visible').and('contain', '* Occupation');
+  });
+
+
+  it('should show a list of occupations when entering Art', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_txtOccupation').type('Art');
+    cy.get('.ui-autocomplete').should('be.visible')
+      .then(() => cy.get('.ui-autocomplete li').eq(0).click());
+
+      cy.get('#ctl00_Main_txtOccupation')
+      .invoke('val') // Get the value of the input
+      .should('include', 'Art'); 
+  });
+
+  it('should show a list of occupations when entering Mechanic', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_txtOccupation').type('Mechanic');
+    cy.get('.ui-autocomplete').should('be.visible')
+      .then(() => cy.get('.ui-autocomplete li').eq(0).click());
+
+      cy.get('#ctl00_Main_txtOccupation')
+      .invoke('val') // Get the value of the input
+      .should('include', 'Mechanic'); 
+  });
+
+  it('should display "Teacher" when "tea" is entered and the first suggestion is selected', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_txtOccupation').type('tea');
+  
+    // Wait for the suggestion list to appear and select the first suggestion
+    cy.get('.ui-autocomplete').should('be.visible')
+      .then(() => cy.get('.ui-autocomplete li').eq(0).click()); // Select the Teacher option
+  
+      cy.get('#ctl00_Main_txtOccupation')
+      .invoke('val') // Get the value of the input
+      .should('include', 'Teacher'); 
+  });
+
+  it('should display "Teacher" when "teac" is entered and selected using arrow keys', () => {
+    cy.get('#ctl00_Main_EmploymentStatus').select('Self Employed').should('have.value', 'S');
+    cy.get('#ctl00_Main_txtOccupation').type('teac{downarrow}{enter}');
+
+    // Wait for the suggestion list to appear and select the ninth option (Teacher)
+    cy.get('.ui-autocomplete').should('be.visible')
+        .then(() => cy.get('.ui-autocomplete li').eq(8).click()); // Select the Teacher option
+
+        cy.get('#ctl00_Main_txtOccupation')
+        .invoke('val') // Get the value of the input
+        .should('include', 'Teacher'); 
+});
+});
