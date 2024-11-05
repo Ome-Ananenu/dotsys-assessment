@@ -15,19 +15,13 @@ describe('Marital status section', () => {
       // Proceed to the next section
       cy.get('#ctl00_Main_Continue1').click();
     });
-describe('Marital Status Dropdown Test', () => {
-  
-    beforeEach(() => {
-      // Visit the page containing the form before each test
-      cy.visit('URL_of_the_form_page');
-    });
   
     it('should display an error message when attempting to proceed without selecting a value', () => {
-        cy.get('#ctl00_Main_Continue2').submit(); 
+        cy.get('#ctl00_Main_Continue2').click(); 
       cy.get('#ctl00_Main_ProposerMaritalStatus')
         .parent()
         .within(() => {
-          cy.contains('* Marital Status').should('be.visible').and('have.css', 'color', 'rgb(255, 0, 0)'); // Red color
+          cy.contains('* Marital Status').should('be.visible').and('have.css', 'color', 'rgb(224, 62, 49)'); // Red color
         });
     });
   
@@ -51,7 +45,7 @@ describe('Marital Status Dropdown Test', () => {
   
     it('should display an error message when selecting "--" and attempting to proceed', () => {
       cy.get('#ctl00_Main_ProposerMaritalStatus').select('--');
-      cy.get('#ctl00_Main_Continue2').submit(); 
+      cy.get('#ctl00_Main_Continue2').click(); 
       cy.contains('* Marital Status').should('be.visible');
     });
   
@@ -111,4 +105,3 @@ describe('Marital Status Dropdown Test', () => {
     });
   
   });
-});
