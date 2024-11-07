@@ -1,4 +1,4 @@
-describe('Filling out Your Details and testing Republic of Ireland or UK section', () => {
+describe('Gender ', () => {
     beforeEach(() => {
       // Visit the homepage and accept any consent pop-ups
       cy.visit('https://www.its4women.ie/');
@@ -17,11 +17,6 @@ describe('Filling out Your Details and testing Republic of Ireland or UK section
     });
     
     describe('Gender Selection Buttons Test', () => {
-  
-    beforeEach(() => {
-      // Visit the page containing the form before each test
-      cy.visit('URL_of_the_form_page');
-    });
   
     it('should display Male and Female buttons as visible and active', () => {
       cy.get('#ctl00_Main_ProposerSexList_0').should('be.visible').and('not.be.disabled');

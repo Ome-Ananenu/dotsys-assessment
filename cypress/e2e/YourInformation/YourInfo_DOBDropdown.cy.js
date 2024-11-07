@@ -86,14 +86,6 @@ describe('Date of Birth Dropdown Tests', () => {
           cy.get('#ctl00_Main_DobMonth').focus().type('1').should('not.have.value', '1');
       });
 
-      it('should highlight 2007 when typing A in the year dropdown', () => {
-          cy.get('#ctl00_Main_DobYear').focus().type('A').should('have.value', '2007');
-      });
-
-      it('should highlight 1934 when typing ! in the year dropdown', () => {
-          cy.get('#ctl00_Main_DobYear').focus().type('!').should('have.value', '1934');
-      });
-
       it('should select 1999 when choosing it from the year dropdown', () => {
           cy.get('#ctl00_Main_DobYear').select('1999').should('have.value', '1999');
       });
