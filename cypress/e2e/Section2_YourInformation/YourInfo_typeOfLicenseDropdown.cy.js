@@ -1,4 +1,4 @@
-describe('Filling out Your Details and testing Republic of Ireland or UK section', () => {
+describe('Tests for Type of Driving Liscence', () => {
     beforeEach(() => {
       // Visit the homepage and accept any consent pop-ups
       cy.visit('https://www.its4women.ie/');

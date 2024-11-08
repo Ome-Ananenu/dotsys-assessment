@@ -1,4 +1,4 @@
-describe('Republic of Ireland or UK radio buttons', () => {
+describe('Tests for Republic of Ireland or UK radio buttons', () => {
   beforeEach(() => {
     // Visit the homepage and accept any consent pop-ups
     cy.visit('https://www.its4women.ie/');

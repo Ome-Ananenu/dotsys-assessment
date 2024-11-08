@@ -1,4 +1,4 @@
-describe('Marital Status Section', () => {
+describe('Tests for Marital Status Dropdown', () => {
   beforeEach(() => {
     // Visit the homepage and accept any consent pop-ups
     cy.visit('https://www.its4women.ie/');

@@ -1,4 +1,4 @@
-describe('Visit homepage and test dropdown interactions', () => {
+describe('Tests for Title dropdown', () => {
   beforeEach(() => {
     cy.visit('https://www.its4women.ie/');
     cy.get('#onetrust-accept-btn-handler').click(); // Accept cookies

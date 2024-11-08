@@ -1,4 +1,4 @@
-describe('Visit Homepage', () => {
+describe('Tests for Email Input Field', () => {
   const emailField = '#ctl00_Main_ProposerEmail';
   const errorMsgField = '#ctl00_Main_RegularExpressionEmail';
   const validErrorText = '* Please enter a valid e-mail address';

@@ -1,4 +1,4 @@
-describe('Visit Homepage', () => {
+describe('Tests for Contact Number Field', () => {
   const fillValidUserInfo = (email) => {
     cy.get('#ctl00_Main_ProposerTelephone').type('07922343359{enter}');
     cy.get('#ctl00_Main_ProposerTitle').select('Mrs').should('have.value', 'Mrs');

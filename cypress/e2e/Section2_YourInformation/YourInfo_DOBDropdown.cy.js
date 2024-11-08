@@ -1,4 +1,4 @@
-describe('Date of Birth Dropdown Tests', () => {
+describe('Tests for Date of Birth Dropdown', () => {
   beforeEach(() => {
       // Visit the homepage and handle initial consent pop-ups
       cy.visit('https://www.its4women.ie/');

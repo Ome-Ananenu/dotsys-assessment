@@ -1,4 +1,4 @@
-describe('Homepage Form Validation Tests', () => {
+describe('Tests for First Name Input Field', () => {
   beforeEach(() => {
     cy.visit('https://www.its4women.ie/');
     cy.get('#onetrust-accept-btn-handler').click();

@@ -1,4 +1,4 @@
-describe('Your Address/Eircode Input Tests', () => {
+describe('Tests for Your Address/Eircode Input', () => {
   beforeEach(() => {
     // Visit the homepage and accept any consent pop-ups
     cy.visit('https://www.its4women.ie/');

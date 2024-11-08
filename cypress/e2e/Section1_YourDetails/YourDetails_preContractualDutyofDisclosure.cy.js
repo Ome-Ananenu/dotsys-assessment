@@ -1,4 +1,4 @@
-describe('Homepage - Duty of Disclosure Section', () => {
+describe('Tests for Duty of Disclosure Section', () => {
   const disclosurePanelHeading = '#divDutyOfDisclosure > .panel-heading';
   const disclosurePanelBody = '#divDutyOfDisclosure > .panel-body';
   const misrepresentationLink = '.panel-body > :nth-child(2) > a';

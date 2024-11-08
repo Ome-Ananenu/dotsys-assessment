@@ -1,4 +1,4 @@
-describe('Years Licence Held Dropdown Tests', () => {
+describe('Tests for Years Licence Held Dropdown', () => {
   beforeEach(() => {
     // Visit the homepage and accept any consent pop-ups
     cy.visit('https://www.its4women.ie/');
